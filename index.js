@@ -15,110 +15,6 @@ const app = express();
 
 app.use(bodyParser.json()); // support parsing of application/json type post data
 
-const users = [
-  {
-    "id":1,
-    "name":"kim",
-    "password":"frank45",
-    "favoriteMovie":"The Dark Knight"
-  },
-  {
-    "id":2,
-    "name":"lee",
-    "password":"lewis45",
-    "favoriteMovie":""
-  }
-
-];
-
-let movies = [
-  {
-    "title": 'The Shawshank Redemption',
-    "genre": {
-      "name": 'drama'
-    },
-    "story":'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
-    "director": {
-      "name":"Frank Darabont"
-    },
-    "stars": {
-      "name":'Tim Robbins'
-    },
-
-  },
-  {
-    "title": 'Al-arraab',
-   "genre": {
-      "name": 'action'
-    },
-  
-    "story":'The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.',
-    "director": {
-      "name":'Francis Ford Coppola'
-    },
-    "stars": {
-    "name" : 'Marlon Brando' 
-    },
-
-  },
-  {
-    "title": 'The Dark Knight',
-   "genre": {
-      "name": 'drama'
-    },
-    "story":'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.',
-    "director": {
-      "name":'Christopher Nolan'
-    },
-    "stars": {
-      "name":'christian Bale'
-    },
-
-  },
-  {
-    "title": 'The Matrix',
-    "genre": {
-      "name": 'action'
-    },
-    "story":'When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.',
-    "director": { 
-      "name":'Lana  Wachowski'
-    },
-    "stars": {"name":'Keanu Reeves'},
-
-  },
-  {
-    "title": ' Gladiator',
-    "genre": {
-      "name": 'action'
-    },
-    "story":'A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.',
-    "director": { "name":'Ridley Scott'
-  },
-    "stars": {"name":'Russell Crowe'},
-
-
-  },
-  {
-    "title": 'Casablanca',
-  "genre": {
-      "name": 'drama'
-    },
-   "story":'A cynical expatriate American cafe owner struggles to decide whether or not to help his former lover and her fugitive husband escape the Nazis in French Morocco.',
-    "director": { "name":'Michael Curtiz'},
-    "stars": {"name": 'Humphrey Bogart' },
-  },
-  {
-    "title": 'Braveheart',
-   "genre": {
-      "name": 'action'
-    },
-    "story":'Scottish warrior William Wallace leads his countrymen in a rebellion to free his homeland from the tyranny of King Edward I of England.',
-    "director": { "name":'Mel Gibson'},
-    "stars": {"name":'Mel Gibson'},
-  },
-
-];
 
 // GET requests
 app.get('/', (req, res) => {
@@ -135,8 +31,8 @@ app.get('/index', (req, res) => {
 //get all movies in mongoose
 
 app.get('/movies', (req, res) => {
-  Users.find()
-    .then((movies) => {
+ res.sendFile('/movies.json',{root:_dirname});
+  
       res.status(201).json(movies);
     })
     .catch((err) => {

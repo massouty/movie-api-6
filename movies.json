@@ -1,6 +1,6 @@
 [
   {
-    "_id": "ObjectId(630d0b70beab0a8c2aa68dab)",
+    "_id": "ObjectId('630d0b70beab0a8c2aa68dab')",
     "Title": "Silence of the Lambs",
     "Description": "A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer.",
     "Genre": {
@@ -17,7 +17,7 @@
     "Featured": "true"
   },
   {
-    "_id": "ObjectId("630dccd41865a0e50b7c4d6c")",
+    "_id": "ObjectId('630dccd41865a0e50b7c4d6c')",
     "Title": "Lord of the Ring",
     "Description": " A  fellowship of hobbits , elves,dwarfs and men is formed to destroy the ring by casting it into the volcanic firew of the crack of doom .",
     "Genre": {
@@ -34,7 +34,7 @@
     "Featured": "true"
   },
   {
-    "_id": "ObjectId("630dd4d81865a0e50b7c4d6d")",
+    "_id": "ObjectId('630dd4d81865a0e50b7c4d6d')",
     "Title": "Coco",
     "Description": "The story followsa 12-zears-old boy named Miguel who is accidentally transported to the Land of Dead.",
     "Genre": {
@@ -51,7 +51,7 @@
     "Featured": "true"
   },
   {
-    "_id": "ObjectId("630dd99a1865a0e50b7c4d6e")",
+    "_id": "ObjectId('630dd99a1865a0e50b7c4d6e')",
     "Title": "Braveheart",
     "Description": "Scottish warrior William Wallace leads his countrymen in a rebellion to free his homeland from the tyranny of King Edward I of England.",
     "Genre": {
@@ -69,7 +69,7 @@
   },
  
   {
-    "_id": "ObjectId("630dec2b1865a0e50b7c4d70")",
+    "_id": "ObjectId('630dec2b1865a0e50b7c4d70')",
     "Title": "Hangover",
     "Description": "The story was about three friends who lose the groom at his Las Vegas bachelor party.",
     "Genre": {
@@ -86,9 +86,9 @@
     "Featured": "true"
   },
   {
-    "_id": "ObjectId("630dfae71865a0e50b7c4d71")",
+    "_id": "ObjectId('630dfae71865a0e50b7c4d71')",
     "Title": "Batman The Dark Knight",
-    "Description": '',
+    "Description": "''",
     "Genre": {
       "Name": "Action",
       "Description": "It is  a film genre in which the protagonist is thrust into a series ofd events that typically involve violence and physical feats."
@@ -103,9 +103,9 @@
     "Featured": "true"
   },
   {
-    "_id": "ObjectId("630dfedd1865a0e50b7c4d72")",
+    "_id": "ObjectId('630dfedd1865a0e50b7c4d72')",
     "Title": "The Shawshank Redemption",
-    "Description": '',
+    "Description": "''",
     "Genre": {
       "Name": "Drama",
       "Description": "It is a genre of narrative fiction intended to be more serious than humorous in tune."
@@ -116,13 +116,13 @@
       "Birth": "1959",
       "Death": "NULL"
     },
-    "ImagePath": '',
+    "ImagePath": "''",
     "Featured": "true"
   },
   {
-    "_id": "ObjectId("630e029d1865a0e50b7c4d73")",
+    "_id": "ObjectId('630e029d1865a0e50b7c4d73')",
     "Title": "The Hobbit",
-    "Description": '',
+    "Description": "''",
     "Genre": {
       "Name": "High fantasy",
       "Description": "It is set in an alternative , fictional world , rather than real world."
@@ -137,7 +137,7 @@
     "Featured": "true"
   },
   {
-    "_id": "ObjectId("630e05601865a0e50b7c4d74")",
+    "_id": "ObjectId('630e05601865a0e50b7c4d74')",
     "Title": "Forrest Gump",
     "Description": "Its story about an innocent and kind-hearted Alabama boy , has been dealing with other peoples unkindness nearly all his life.",
     "Genre": {
@@ -154,7 +154,7 @@
     "Featured": "true"
   },
   {
-    "_id": "ObjectId("630e84811575e72978ab09e7")",
+    "_id": "ObjectId('630e84811575e72978ab09e7')",
     "Title": "Midway",
     "Description": "It tells the story of the leader and soldiers who used thier instincts,fortitude and bravery to overcome the odds.",
     "Genre": {
