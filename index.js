@@ -21,16 +21,16 @@ app.get('/', (req, res) => {
   res.send('Welcome to my website for movies!');
 });
 
-app.get('/documentation', (req, res) => {                  
+app.get('/documentation',passport.authenticate('jwt', { session: false }), (req, res) => {                  
   res.sendFile('public/documentation.html', { root: __dirname });
 });
 
-app.get('/index', (req, res) => {                  
+app.get('/index', passport.authenticate('jwt', { session: false }),(req, res) => {                  
   res.sendFile('public/index.html', { root: __dirname });
 });
 //get all movies in mongoose
 
-app.get('/movies', (req, res) => {
+app.get('/movies',passport.authenticate('jwt', { session: false }), (req, res) => {
  movies.find()
  .then((movies) => {
   res.json(movies);
@@ -43,7 +43,7 @@ app.get('/movies', (req, res) => {
 
 
 //get movies/:title in mongoose 
-app.get('/movies/:Title',(req,res)=> {
+app.get('/movies/:Title',passport.authenticate('jwt', { session: false }),(req,res)=> {
   movies.findOne({Title: req.params.Title})
     .then((movie) => {
       res.json(movie);
@@ -55,7 +55,7 @@ app.get('/movies/:Title',(req,res)=> {
 });
 
 //get movies/director/:directorName
-app.get('/movies/director/:directorName',(req,res)=> {
+app.get('/movies/director/:directorName',passport.authenticate('jwt', { session: false }),(req,res)=> {
   movies.findOne({"Director.Name": req.params.name})
     .then((movie) => {
       res.json(movie.Director);
@@ -67,7 +67,7 @@ app.get('/movies/director/:directorName',(req,res)=> {
 });
 
 //get movies/genre/:genreName
-app.get('/movies/genre/:genreName',(req,res)=>{movies.findOne({"Genre.Name": req.params.name})
+app.get('/movies/genre/:genreName',passport.authenticate('jwt', { session: false }),(req,res)=>{movies.findOne({"Genre.Name": req.params.name})
     .then((movie) => {
       res.json(movie.Director);
     })
@@ -79,7 +79,7 @@ app.get('/movies/genre/:genreName',(req,res)=>{movies.findOne({"Genre.Name": req
 
 
 // Adds data for a new movie to our list of movies in mongoose
-app.post('/movies', (req, res) => {
+app.post('/movies',passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOne({ Title: req.body.Title })
     .then((movie) => {
       if (movie) {
@@ -108,7 +108,7 @@ app.post('/movies', (req, res) => {
 });
 
 // Adds data for a new user to our list of users in mongoose
-app.post('/users', (req, res) => {
+app.post('/users',passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOne({ userName: req.body.userName})
     .then((user) => {
       if (user) {
@@ -135,7 +135,7 @@ app.post('/users', (req, res) => {
     });
 });
 // delete one user by  username
-app.delete('/users/:userName', (req, res) => {
+app.delete('/users/:userName',passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndRemove({ userName: req.params.userName })
     .then((user) => {
       if (!user) {
@@ -151,7 +151,7 @@ app.delete('/users/:userName', (req, res) => {
 });
 
 // delete one movie by  title
-app.delete('/movies/:Title', (req, res) => {
+app.delete('/movies/:Title',passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndRemove({ Title: req.params.Title })
     .then((movie) => {
       if (!movie) {
@@ -167,7 +167,7 @@ app.delete('/movies/:Title', (req, res) => {
 });
 
 // Add a movie to a user's list of favorites
-app.post('/users/:Username/movies/:MovieID', (req, res) => {
+app.post('/users/:Username/movies/:MovieID',passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({userName: req.params.userName }, {
      $push: { favoriteMovies: req.params.MovieID }
    },
@@ -183,7 +183,7 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 });
 
 //update user in mongoose
-app.put('/users/:userName', (req, res) => {
+app.put('/users/:userName', passport.authenticate('jwt', { session: false }),(req, res) => {
   Users.findOneAndUpdate({ userName: req.params.userName}, { $set:
     {
     Username: req.body.Username,
@@ -211,7 +211,9 @@ app.use(express.static('public')); // Automatically routes all requests for stat
 
 
 app.use(bodyParser.urlencoded({ extended: true })); //support parsing of application/x-www-form-urlencoded post data
-
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
 app.use((err, req, res) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
