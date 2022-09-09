@@ -31,15 +31,16 @@ app.get('/index', (req, res) => {
 //get all movies in mongoose
 
 app.get('/movies', (req, res) => {
- res.sendFile('/movies.json',{root:_dirname});
-  
-      res.status(201).json(movies);
-    })
-    .catch((err) => {
+ movies.find()
+ .then((movies) => {
+  res.json(movies);
+ })
+  .catch((err) => {
       console.error(err);
-      res.status(500).send('Error: ' + err);
+      res.status(500).send('Error:' + err);
     });
-});
+    });
+
 
 //get movies/:title in mongoose 
 app.get('/movies/:Title',(req,res)=> {
