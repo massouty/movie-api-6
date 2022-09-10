@@ -1,36 +1,91 @@
 
-const express = require('express'),
-    morgan = require('morgan'),
-    bodyParser = require('body-parser'),
-    uuid = require('uuid');
-const { rest } = require('lodash');
+const express = require('express');
+const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
-const Models = require('./models.js');
-const Movies = Models.Movie;
-const Users = Models.User;
-mongoose.connect('mongodb://localhost:27017/myFlixDB', 
-{ useNewUrlParser: true, useUnifiedTopology: true });
+const cors = require('cors');
+const passport = require('passport');
+const { check, validationResult } = require('express-validator');
+const Models = require('./models');
 
+// Configure Express Module
 const app = express();
 
-app.use(bodyParser.json()); // support parsing of application/json type post data
+// Configure Mongoose Module
+const Movies = Models.Movie;
+const Users = Models.User;
 
+// const URI = 'mongodb://localhost:27017/myFlixDB'; // Database Option 1: Local DB
+const URI = process.env.myFlixDB; // Database Option 2: Hosted DB
 
-// GET requests
-app.get('/', (req, res) => {
-  res.send('Welcome to my website for movies!');
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+ 
+
+// Configure logging file access
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {
+  flags: 'a',
 });
 
-app.get('/documentation',passport.authenticate('jwt', { session: false }), (req, res) => {                  
+// Configure Allowed Domains for Cross-Origin Resource Sharing (CORS)
+const allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
+
+// Configure Date-Time Middleware
+const requestTime = (req, res, next) => {
+  req.requestTime = Date.now();
+  next();
+};
+
+// Use Middleware
+app.use(morgan('combined', { stream: accessLogStream }));
+app.use(requestTime);
+app.use(bodyParser.urlencoded({
+  extended: true,
+}));
+app.use(bodyParser.json());
+app.use(methodOverride());
+app.use(express.static('public'));
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+  next();
+});
+
+// app.use(cors()); // use cors  through port 8080
+app.use(cors({ cors :'http://localhost:8080',
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const message = `The CORS policy for this application doesnt allow access from this origin: ${origin}`;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  },
+}));
+
+// AUTHENTICATION
+const auth = require('./auth')(app);
+require('./passport');
+
+
+
+
+// ROUTING
+// Home
+app.get('/', (req, res) => {
+  res.sendFile('public/index.html', { root: __dirname });
+});
+
+app.get('/documentation', (req, res) => {                  
   res.sendFile('public/documentation.html', { root: __dirname });
 });
 
-app.get('/index', passport.authenticate('jwt', { session: false }),(req, res) => {                  
-  res.sendFile('public/index.html', { root: __dirname });
-});
+
 //get all movies in mongoose
 
-app.get('/movies',passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }),(req, res) => {
  movies.find()
  .then((movies) => {
   res.json(movies);
@@ -69,7 +124,7 @@ app.get('/movies/director/:directorName',passport.authenticate('jwt', { session:
 //get movies/genre/:genreName
 app.get('/movies/genre/:genreName',passport.authenticate('jwt', { session: false }),(req,res)=>{movies.findOne({"Genre.Name": req.params.name})
     .then((movie) => {
-      res.json(movie.Director);
+      res.json(movie.Genre);
     })
     .catch((err) => {
       console.error(err);
@@ -108,7 +163,7 @@ app.post('/movies',passport.authenticate('jwt', { session: false }), (req, res) 
 });
 
 // Adds data for a new user to our list of users in mongoose
-app.post('/users',passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post('/users', passport.authenticate('jwt', { session: false }),(req, res) => {
   Users.findOne({ userName: req.body.userName})
     .then((user) => {
       if (user) {
@@ -183,10 +238,10 @@ app.post('/users/:Username/movies/:MovieID',passport.authenticate('jwt', { sessi
 });
 
 //update user in mongoose
-app.put('/users/:userName', passport.authenticate('jwt', { session: false }),(req, res) => {
+app.put('/users/:userName',passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({ userName: req.params.userName}, { $set:
     {
-    Username: req.body.Username,
+    userName: req.body.userName,
     Password: req.body.Password,
     Email: req.body.Email,
     Birthday: req.body.Birthday,
@@ -205,19 +260,6 @@ app.put('/users/:userName', passport.authenticate('jwt', { session: false }),(re
 });
 
 
-app.use(morgan('combined')); // setup the logger, Mildware function to the terminal
-
-app.use(express.static('public')); // Automatically routes all requests for static files to their corresponding files within a certain folder on the server.
-
-
-app.use(bodyParser.urlencoded({ extended: true })); //support parsing of application/x-www-form-urlencoded post data
-let auth = require('./auth')(app);
-const passport = require('passport');
-require('./passport');
-app.use((err, req, res) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
 
 // listen for requests
 app.listen(8080, () => {
