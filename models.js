@@ -25,3 +25,5 @@ let User = mongoose.model('User', userSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
+
+requireStack : ['./passport.js','./auth.js','/index.js'];
