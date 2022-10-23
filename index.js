@@ -17,10 +17,21 @@ const app = express();
 // Configure Mongoose Module
 const Movies = Models.Movie;
 const Users = Models.User;
- const URI = 'mongodb://localhost:27017/myFlixDB'; // Database Option 1: Local DB
+
+var db = "mongodb://localhost:27017/myFlixDB";
+mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const conSuccess = mongoose.connection
+conSuccess.once('open', _ => {
+  console.log('Database connected:', db)
+})
+
+
+
+ //const URI = 'mongodb://localhost:27017/myFlixDB'; // Database Option 1: Local DB
 //const URI = process.env.myFlixDB; // Database Option 2: Hosted DB
 
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Configure logging file access
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {
@@ -74,7 +85,7 @@ app.get('/', (req, res) => {
   res.sendFile('public/index.html', { root: __dirname });
 });
 
-app.get('/documentation.html', (req, res) => {
+app.get('/documentation', (req, res) => {
   res.sendFile('public/documentation.html', { root: __dirname });
 });
 
