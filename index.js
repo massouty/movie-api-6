@@ -11,27 +11,28 @@ const passport = require('passport');
 const { check, validationResult } = require('express-validator');
 const Models = require('./models.js');
 
+require('dotenv').config()
+
 // Configure Express Module
 const app = express();
-
 // Configure Mongoose Module
 const Movies = Models.Movie;
 const Users = Models.User;
 
-var db = "mongodb://localhost:27017/myFlixDB";
+/*var db = "mongodb://localhost:27017/myFlixDB";
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const conSuccess = mongoose.connection
 conSuccess.once('open', _ => {
   console.log('Database connected:', db)
-})
+})*/
 
 
 
- //const URI = 'mongodb://localhost:27017/myFlixDB'; // Database Option 1: Local DB
+ const URI = 'mongodb+srv://myFlixDBadmin:tawani599@myflixdb.bmvk2r7.mongodb.net/myFlixDB?retryWrites=true&w=majority'; // Database outside from  website mongodb.com
 //const URI = process.env.myFlixDB; // Database Option 2: Hosted DB
 
-//mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Configure logging file access
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {
