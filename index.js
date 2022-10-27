@@ -27,12 +27,12 @@ conSuccess.once('open', _ => {
   console.log('Database connected:', db)
 })*/
 
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 
-
- const URI = 'mongodb+srv://myFlixDBadmin:tawani599@myflixdb.bmvk2r7.mongodb.net/myFlixDB?retryWrites=true&w=majority'; // Database outside from  website mongodb.com
+ //const URI = 'mongodb+srv://yousef:1234@myflixdb.bmvk2r7.mongodb.net/myFlixDB?retryWrites=true&w=majority'; // Database outside from  website mongodb.com
 //const URI = process.env.myFlixDB; // Database Option 2: Hosted DB
 
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Configure logging file access
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {
