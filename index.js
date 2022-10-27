@@ -27,7 +27,7 @@ conSuccess.once('open', _ => {
   console.log('Database connected:', db)
 })*/
 
-mongoose.connect( process.env.CONNECTION_URI , { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('${process.env.CONNECTION_URI}' , { useNewUrlParser: true, useUnifiedTopology: true});
 app.use(bodyParser.json());
 app.use(morgan('common'));
 
