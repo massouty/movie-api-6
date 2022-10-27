@@ -40,7 +40,7 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {
 });
 
 // Configure Allowed Domains for Cross-Origin Resource Sharing (CORS)
-const allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
+const allowedOrigins = ['http://localhost:8080', 'https://myflixdbapi.herokuapp.com'];
 
 // Configure Date-Time Middleware
 const requestTime = (req, res, next) => {
